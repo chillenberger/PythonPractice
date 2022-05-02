@@ -54,10 +54,16 @@ def insertion_sort(lst):
 
     return lst
 
-# python has a sort funciton for lists nativly
+# python lists have a built in method
+# modifies list in place
 def native_sort(lst):
     lst.sort()
     return lst
+
+# python also has built in function, builds new sorted list from iterable
+def native_dict_sort(dct):
+    mykey = lambda item: item[1]
+    return sorted(dct.items(), key=mykey)
 
 # recursivly break the list into its individual components the put back together
 # in order. O(nlong(n))
@@ -97,6 +103,9 @@ def quick_sort(lst):
 
 range__ = 100000
 samples = 10000
+
+mydct = {"a": 4, "z": 2, "b":3}
+print(native_dict_sort(mydct))
 
 mylst = random.sample(range(range__), k=samples)
 print(len(mylst))
