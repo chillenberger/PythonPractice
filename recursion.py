@@ -101,6 +101,18 @@ def shortest_path(rows, cols):
         return 1
     return shortest_path(rows-1, cols) + shortest_path(rows, cols-1)
 
+
+# Recursion can be optimized using memoization
+# Data Structures and Algorithms
+# Fibonacci practice
+def fibonacci_calc(n, memo={}):
+    if n==0 or n==1:
+        return n
+    if not memo.get(n):
+        memo[n] = fibonacci_calc(n-1, memo) + fibonacci_calc(n-2, memo)
+    return memo[n]
+
+
 if __name__ == "__main__":
     print(numsum(0, 100))
 
@@ -125,3 +137,5 @@ if __name__ == "__main__":
     print(find_fist_x("abcdefghijklmnopqrstuvwxyz"))
 
     print(shortest_path(3, 3))
+
+    print(fibonacci_calc(30))
