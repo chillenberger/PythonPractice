@@ -102,7 +102,8 @@ def shortest_path(rows, cols):
     return shortest_path(rows-1, cols) + shortest_path(rows, cols-1)
 
 
-# Recursion can be optimized using memoization
+# Recursion can be optimized using memoization.  Dynamic programming is solving
+# recursive problems in a way that does not recalculate the same input twice.
 # Data Structures and Algorithms
 # Fibonacci practice
 def fibonacci_calc(n, memo={}):
@@ -112,6 +113,21 @@ def fibonacci_calc(n, memo={}):
         memo[n] = fibonacci_calc(n-1, memo) + fibonacci_calc(n-2, memo)
     return memo[n]
 
+
+def golomb(n, memo={}):
+    if n == 1:
+        return 1
+    if memo.get(n):
+        return memo[n]
+    memo[n] = 1 + golomb(n - golomb(golomb(n-1)))
+    return memo[n]
+
+def shortest_path_memo(rows, cols, memo={}):
+    if rows == 1 or cols == 1:
+        return 1
+    if not memo.get((rows, cols)):
+        memo[(rows, cols)] = shortest_path_memo(rows-1, cols, memo) + shortest_path_memo(rows, cols-1, memo)
+    return memo[(rows, cols)]
 
 if __name__ == "__main__":
     print(numsum(0, 100))
@@ -139,3 +155,7 @@ if __name__ == "__main__":
     print(shortest_path(3, 3))
 
     print(fibonacci_calc(30))
+
+    print(golomb(4))
+
+    print(shortest_path_memo(3,3))
