@@ -2,6 +2,28 @@
 
 import random
 import time
+
+#helper funciton for qucksort and quickselect.
+def partition(arr, left_pointer, right_pointer):
+    if len(arr) <= 1:
+        return arr
+    pivot = right_pointer
+    right_pointer -= 1
+
+    while True:
+        while arr[left_pointer] < arr[pivot]:
+            left_pointer += 1
+        while arr[right_pointer] > arr[pivot]:
+            right_pointer -= 1
+        if left_pointer > right_pointer:
+            break
+        else:
+            arr[left_pointer], arr[right_pointer] = arr[right_pointer], arr[left_pointer]
+        left_pointer += 1
+    arr[pivot], arr[left_pointer] = arr[left_pointer], arr[pivot]
+
+    return left_pointer
+
 # selection sort
 # O(n^2)
 # Start at beginning of lst, read through entire lst, remember lowest value,
@@ -98,8 +120,12 @@ def merge_sort(lst):
             k+=1
     return lst
 
-def quick_sort(lst):
-    return lst
+def quick_sort(lst, left_index, right_index):
+    if right_index - left_index <= 0:
+        return
+    pivot = partition(lst, left_index, right_index)
+    quick_sort(lst, left_index, pivot-1)
+    quick_sort(lst, pivot+1, right_index)
 
 range__ = 100000
 samples = 10000
@@ -136,3 +162,10 @@ print(len(mylst))
 timer = time.process_time_ns()
 merge_sort(mylst)
 print(f"merge timer: {(time.process_time_ns()-timer)/1e9}")
+
+mylst = random.sample(range(range__), k=samples)
+print(len(mylst))
+timer = time.process_time_ns()
+index = len(mylst)-1
+quick_sort(mylst, 0, index)
+print(f"quicksort timer: {(time.process_time_ns()-timer)/1e9}")
