@@ -91,8 +91,6 @@ class linked_list:
         self.head = last
 
 
-
-
 class ll_node:
     def __init__(self, data):
         self.data = data
@@ -100,6 +98,13 @@ class ll_node:
 
     def __repr__(self):
         return self.data
+
+# delete node without using linked list obj
+def ll_shift_left(node):
+    if node.next == None:
+        return
+    node.data = node.next.data
+    node.next = node.next.next
 
 if __name__ == '__main__':
     llist = linked_list()
@@ -129,4 +134,7 @@ if __name__ == '__main__':
     print(llist)
 
     llist.reverse()
+    print(llist)
+
+    ll_shift_left(node3)
     print(llist)
