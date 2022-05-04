@@ -74,6 +74,24 @@ class linked_list:
                 return n
         raise Exception("Index out of range.")
 
+    def reverse(self):
+        if self.head is None:
+            return
+        if self.head.next is None:
+            return
+        last = None
+        current = self.head
+        while True:
+            next = current.next
+            current.next = last
+            last = current
+            current = next
+            if next is None:
+                break
+        self.head = last
+
+
+
 
 class ll_node:
     def __init__(self, data):
@@ -108,4 +126,7 @@ if __name__ == '__main__':
     print(llist)
 
     llist.delete_node(1)
+    print(llist)
+
+    llist.reverse()
     print(llist)
