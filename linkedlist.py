@@ -18,6 +18,12 @@ class linked_list:
         nodes.append("None")
         return " -> ".join(nodes)
 
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+
 class ll_node:
     def __init__(self, data):
         self.data = data
@@ -34,5 +40,5 @@ if __name__ == "__main__":
     node2 = ll_node('second')
     node1.next = node2
     print(llist)
-    node1
-    node2
+    for i in llist:
+        print(i)
