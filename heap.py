@@ -39,6 +39,7 @@ class heap:
         right_larger = self.data[idx] < self.data[self.right_child(idx)]
         return left_larger or right_larger
 
+    # Return index of largest child
     def larger_child_idx(self, idx):
         left_idx = self.left_child(idx)
         right_idx = self.right_child(idx)
@@ -49,22 +50,26 @@ class heap:
     def root(self):
         return self.data[0]
 
+    # Return last node
     def last(self):
         return self.data[-1]
 
+    # Find left child return index.
     def left_child(self, idx):
         return idx*2 + 1
 
+    # Find right child return index
     def right_child(self, idx):
         return idx*2 + 2
 
+    # Find Parent index
     def parent(self, idx):
         return (idx-1)//2
 
 if __name__ == "__main__":
     min_rand = 0
     max_rand = 1000
-    # reate list of input values for testing
+    # create list of input values for testing
     vals = random.sample(range(max_rand), 10)
     # initialize  heap
     queue = heap()

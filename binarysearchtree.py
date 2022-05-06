@@ -1,13 +1,15 @@
 # A binary search tree is a tree where each node has at most to children
 # lower value goes to left and higher child value goes to right.
-#
+# Binary trees have log(N) Search, Delete, and Insert time. 
 
+# used for generating unique data.
 import random
 
 class binary_search_tree:
     def __init__(self, root=None):
         self.root = root
 
+    # Print out binary tree in an easy format
     def show(self, node=False):
         if node is False:
             node = self.root
@@ -17,6 +19,7 @@ class binary_search_tree:
         print(node.data)
         self.show(node.right)
 
+    # Find node with value we want
     def search(self, data, node=False):
         if node is False:
             node = self.root
@@ -28,11 +31,15 @@ class binary_search_tree:
             self.search(data, node.right)
         return
 
+    # Insert new node to tree.
     def insert(self, new_node, node=None):
+        # Start at root
         if node is None:
             node = self.root
+        # If data already in tree return
         if node.data == new_node.data:
             return
+        # Trickle throug tree until we find correct spot for data.
         if new_node.data < node.data and node.left is not None:
             self.insert(new_node, node.left)
         elif new_node.data > node.data and node.right is not None:
@@ -42,35 +49,47 @@ class binary_search_tree:
         elif new_node.data > node.data and node.right is None:
             node.right = new_node
 
+    # Delete a node
     def delete(self, remove_data, node=False):
+        # Start search for node to remove at root.
         if node is False:
             node = self.root
-
+        # when the node is found, we return.
         if node is None:
             return None
+        # Look at left and right child to find what direction down tree we go
+        # Recursivly call delete on appropriate chld child
+        # Set appropriate child to returned node, if data to remvoe < or >
         elif remove_data < node.data:
             node.left = self.delete(remove_data, node.left)
             return node
         elif remove_data > node.data:
             node.right = self.delete(remove_data, node.right)
             return node
+        # If we found data to remove, evaluate its children
         elif remove_data == node.data:
+            # If none or one child, shift tree up without worry
             if node.left is None:
                 return node.right
             elif node.right is None:
                 return node.left
+            # If two children, lift tree using lift method.
             else:
                 node.right = self.lift(node.right, node)
                 return node
 
+    # Lifts tree for delete method
     def lift(self, node, node_to_delete):
+        # search successive node, (smallest larger value)
         if node.left is not None:
             node.left = self.lift(node.left, node_to_delete)
             return node
+        # When successive node found make copy data to node to delete
         else:
             node_to_delete.value = node.value
             return node.right
 
+    # Return greatest number in tree.
     def greatest(self, node=False):
         if node is False:
             node = self.root
@@ -79,7 +98,7 @@ class binary_search_tree:
         return self.greatest(node.right)
 
 
-
+# Nodes to place into binary tree
 class node:
     def __init__(self, data):
         self.data = data
