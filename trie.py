@@ -5,7 +5,7 @@
 
 class trie:
     def __init__(self):
-        self.root = node()
+        self.root = trieNode()
 
     # search for a word in the trie, return last node found
     def search(self, word):
@@ -31,16 +31,17 @@ class trie:
                 current_node = current_node.children[chr]
             # else add new characters by appending nodes.
             else:
-                new_node = node()
+                new_node = trieNode()
                 current_node.children[chr] = new_node
-                current_node = current_node.children[chr]
+                current_node = new_node
         current_node.children["*"] = None
 
     # shows all word starting with a specific char, for testing.
-    def show_dict(self, node=None, word="", words=[]):
+    def show_dict(self, node=None, word="", words=None):
+        words = [] if words is None else words
         # start at beginning if no node passed in
         current_node = node or self.root
-        # itterate through all nodes in each node
+        # iterate through all nodes in each node
         for key, childNode in current_node.children.items():
             # if at end node, meaning full word, append word to words list.
             if key == "*":
@@ -51,7 +52,25 @@ class trie:
         # return word list.
         return words
 
-class node:
+    def auto_complete(self, prefix):
+        search_node = self.search(prefix)
+        if not search_node:
+            return None
+        return self.show_dict(search_node)
+
+    def auto_correct(self, word):
+        if self.search(word):
+            return [word]
+        for c_idx in range(len(word), -1, -1):
+            print(word[:c_idx])
+            search_node = self.search(word[:c_idx])
+            if search_node:
+                return self.auto_complete(word[:c_idx])
+        return None
+
+
+
+class trieNode:
     def __init__(self):
         self.children = {}
 
@@ -59,7 +78,16 @@ class node:
 if __name__ == "__main__":
     my_trie = trie()
     my_trie.insert("hello")
+    my_trie.insert("cat")
+    my_trie.insert("catnip")
+    my_trie.insert("catnap")
     my_trie.insert("hell")
     my_trie.insert("climbing")
     my_trie.insert("quickdraw")
-    print(my_trie.show_dict())
+    find = my_trie.search("cli")
+    find2 = my_trie.search("he")
+    my_trie.show_dict(find)
+    print(my_trie.show_dict(find2))
+    print(my_trie.auto_complete("ca"))
+    print(my_trie.auto_complete("q"))
+    print(my_trie.auto_correct("cla"))
