@@ -1,6 +1,6 @@
 # A binary search tree is a tree where each node has at most to children
 # lower value goes to left and higher child value goes to right.
-# Binary trees have log(N) Search, Delete, and Insert time. 
+# Binary trees have log(N) Search, Delete, and Insert time.
 
 # used for generating unique data.
 import random
@@ -10,14 +10,18 @@ class binary_search_tree:
         self.root = root
 
     # Print out binary tree in an easy format
+    # This is a depth first traversal, three types of DFS are pre-order,
+    # in-order, post-order
     def show(self, node=False):
         if node is False:
             node = self.root
         if node is None:
             return
+        # print(node.data) #pre-order traversal
         self.show(node.left)
-        print(node.data)
+        print(node.data) #in-order traversal
         self.show(node.right)
+        # print(node.data) #post-order traversal
 
     # Find node with value we want
     def search(self, data, node=False):

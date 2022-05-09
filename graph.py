@@ -4,7 +4,9 @@
 # where every vertex is connected somehow are called connected graphs.
 
 
-# DFS (depth first search) and BFS (Breadth first search) are searching techniques.
+# DFS (depth first search) and BFS (breadth first search) are searching techniques.
+# O(V+E) speed V=vertecies E=edges
+
 
 import random
 
