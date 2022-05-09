@@ -92,7 +92,6 @@ def breadth_first_search(vertex, visited=None, queue=None):
 
 # one solution to minimum length problem.
 def dijkstra_alogorithm(start, end):
-    print(f"start: {start.id}, end: {end.id}")
     if type(start) is not weighted_vertex:
         return
     if type(end) is not weighted_vertex:
@@ -122,7 +121,6 @@ def dijkstra_alogorithm(start, end):
                 unvisited[vertex] = True
             # calculate total weigh to get to adjacent vertex from start vertex
             total_weight = cheapest[current] + weight
-            print(total_weight)
             # if lower weight than other path in cheapest,
             if not cheapest.get(vertex) or total_weight < cheapest[vertex]:
                 # replace cheapest value
@@ -137,15 +135,16 @@ def dijkstra_alogorithm(start, end):
                 min = cheapest[key]
                 next = key
         current = next
+
+    # iterate through previous to get path
     path = []
     current = end
-    print(previous_city)
     while current is not start:
-        print(f"id: {current.id}, price: {cheapest[current]}")
         path.append(current.id)
         current = previous_city[current]
 
     path.append(start.id)
+    # reverse path to get correct order from start to finish 
     path.reverse()
     return path, cheapest[end]
 
@@ -171,22 +170,25 @@ def make_graph(size, weighted=False):
 
 if __name__ == "__main__":
 
-    # verticies = make_graph(size=10, weighted=True)
-    # print(f"vertex: {verticies[4].id}, adj: {verticies[4].adjacent}")
+    verticies = make_graph(size=100, weighted=True)
+    print(f"vertex: {verticies[4].id}, adj: {verticies[4].adjacent}")
     # depth_first_search(verticies[1])
     # print("*****")
     # breadth_first_search(verticies[1])
 
-    a = weighted_vertex(1)
-    b = weighted_vertex(2)
-    c = weighted_vertex(3)
-    d = weighted_vertex(4)
-
-    a.add_adjacent(b, 2)
-    b.add_adjacent(c, 3)
-    a.add_adjacent(c, 2)
-    b.add_adjacent(d, 1)
-    c.add_adjacent(d, 2)
-
-    path, price = dijkstra_alogorithm(a, d)
+    path, price = dijkstra_alogorithm(verticies[3], verticies[54])
     print(f"path: {path}, price: {price}")
+
+    # a = weighted_vertex(1)
+    # b = weighted_vertex(2)
+    # c = weighted_vertex(3)
+    # d = weighted_vertex(4)
+    #
+    # a.add_adjacent(b, 2)
+    # b.add_adjacent(c, 3)
+    # a.add_adjacent(c, 2)
+    # b.add_adjacent(d, 1)
+    # c.add_adjacent(d, 2)
+    #
+    # path, price = dijkstra_alogorithm(a, d)
+    # print(f"path: {path}, price: {price}")
