@@ -69,9 +69,39 @@ class Solution5_9_2022:
         # return new list
         return new_values
 
+
+# leetcode daily, 5/10/2022
+# 216. Combination Sum III
+# find k intagers that sum to n
+# solution uses backtracking
+class Solution5_10_22:
+    def __init__(self):
+        self.ans = []
+
+    def solve(self, a, pos, k, n):
+        if pos == k:
+            if sum(a) == n:
+                self.ans.append(a[:])
+        for i in range(a[-1]+1 if a else 1,10):
+            a.append(i)
+            self.solve(a, pos+1, k, n)
+            a.pop()
+
+
+    def combinationSum3(self, k: int, n: int) -> list[list[int]]:
+        if n > 45:
+            return
+        a = []
+        self.solve(a, 0, k, n)
+        return self.ans
+# run
+# test = Solution5_10_22()
+# print(test.combinationSum3(9, 45))
+
+
 # leetcode
 # 3. Longest Substring Without Repeating Characters
-# used sliding window technique 
+# used sliding window technique
 def lengthOfLongestSub(s):
     longest = 0
     for i in range(len(s)):
