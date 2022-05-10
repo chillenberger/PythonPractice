@@ -106,6 +106,9 @@ def ll_shift_left(node):
     node.data = node.next.data
     node.next = node.next.next
 
+
+
+
 if __name__ == '__main__':
     llist = linked_list()
     print(llist)
