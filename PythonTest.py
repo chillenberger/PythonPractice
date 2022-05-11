@@ -31,8 +31,17 @@ def romanNums(s):
         print(rsp)
     return rsp
 
-# This code is contributed by Bhavya Jain
-
+# Backtracking practice
+def back(a=None, pos=0):
+    if pos == 4:
+        return
+    if a is None:
+        a = []
+    for i in range(a[-1]+1 if a else 1,10):
+        a.append(i)
+        print(a)
+        back(a, pos+1)
+        a.pop()
 
 if __name__ == "__main__":
-    print(romanNums("IIIVX"))
+    back()

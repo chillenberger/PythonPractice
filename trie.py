@@ -37,7 +37,7 @@ class trie:
         current_node.children["*"] = None
 
     # shows all word starting with a specific char, for testing.
-    def show_dict(self, node=None, word="", words=None):
+    def collectAllWords(self, node=None, word="", words=None):
         words = [] if words is None else words
         # start at beginning if no node passed in
         current_node = node or self.root
@@ -48,7 +48,7 @@ class trie:
                 words.append(word)
             # else add character to word and pass to next recurrsion.
             else:
-                self.show_dict(childNode, word+key, words)
+                self.collectAllWords(childNode, word+key, words)
         # return word list.
         return words
 
@@ -56,7 +56,7 @@ class trie:
         search_node = self.search(prefix)
         if not search_node:
             return None
-        return self.show_dict(search_node)
+        return self.collectAllWords(search_node)
 
     def auto_correct(self, word):
         if self.search(word):
@@ -86,8 +86,8 @@ if __name__ == "__main__":
     my_trie.insert("quickdraw")
     find = my_trie.search("cli")
     find2 = my_trie.search("he")
-    my_trie.show_dict(find)
-    print(my_trie.show_dict(find2))
+    my_trie.collectAllWords(find)
+    print(my_trie.collectAllWords(find2))
     print(my_trie.auto_complete("ca"))
     print(my_trie.auto_complete("q"))
     print(my_trie.auto_correct("cla"))

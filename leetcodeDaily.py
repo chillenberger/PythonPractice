@@ -118,3 +118,17 @@ def lengthOfLongestSub(s):
             j += 1
 
     return longest
+
+# leetcode
+# 4. Median of Two Sorted Arrays
+class Solution_4:
+    def findMedianSortedArrays(self, nums1: list[int], nums2: list[int]) -> float:
+        nums1L = len(nums1)
+        nums2L = len(nums2)
+        medianL = nums1[nums1L//2] if nums1L > nums2L else nums2[nums2L//2]
+        medianS = nums2[nums2L//2] if nums2L <= nums1L else nums1[nums1L//2]
+        print(f"medianL: {medianL} medianS: {medianS}")
+
+# run
+test = Solution_4()
+test.findMedianSortedArrays([1,3], [2])
