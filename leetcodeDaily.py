@@ -121,14 +121,89 @@ def lengthOfLongestSub(s):
 
 # leetcode
 # 4. Median of Two Sorted Arrays
+# Algorithm reference https://www.youtube.com/watch?v=LPFhl65R7ww
 class Solution_4:
-    def findMedianSortedArrays(self, nums1: list[int], nums2: list[int]) -> float:
-        nums1L = len(nums1)
-        nums2L = len(nums2)
-        medianL = nums1[nums1L//2] if nums1L > nums2L else nums2[nums2L//2]
-        medianS = nums2[nums2L//2] if nums2L <= nums1L else nums1[nums1L//2]
-        print(f"medianL: {medianL} medianS: {medianS}")
+    max_neg = -1000
+    max_pos = 1000
 
+    def findMedianSortedArrays(self, nums1: list[int], nums2: list[int]) -> float:
+        # find initial x and y arr positions
+        x_arr, y_arr = (nums1, nums2) if len(nums1) <= len(nums2) else (nums2, nums1)
+        x_end = len(x_arr)-1
+        y_end = len(y_arr)-1
+        x_start = 0
+        x_pos = (x_end+x_start)//2
+        y_pos = (len(x_arr)+len(y_arr)+1)//2-x_pos
+
+        i=0 # testing
+        # Edge Case: len x = 1
+        # if len(x) == 1:
+        #     if not (len(x)+len(y))%2:
+        #         return min(y_arr[y_pos-1, x_arr[0]])
+
+
+        while x_pos <= len(x_arr) or x_pos >= 0:
+            # hold x and y values for comparison
+            print(f"x_pos: {x_pos}, y_pos: {y_pos}")
+            xH = x_arr[x_pos] if x_pos < len(x_arr) else Solution_4.max_pos
+            xL = x_arr[x_pos-1] if x_pos > 0 else Solution_4.max_neg
+            yH = y_arr[y_pos]
+            yL = y_arr[y_pos-1]
+            print(f"xL: {xL} xH: {xH}, yL: {yL}, yH: {yH}")
+
+            # found median so return
+            if xL <= yH and yL <= xH:
+                return (float(max(xL, yL)) if not (len(x_arr)+len(y_arr))%2
+                    else (max(xL, yL)+min(xH, yH))/2)
+            # x_arr median is too high so move left
+            elif xL >= yH:
+                x_end = x_pos-1
+                x_pos = (x_end+x_start)//2
+                y_pos = (len(x_arr)+len(y_arr)+1)//2-x_pos
+                # Edge case: if x_pos is < 0 then min x_arr is greater than
+                # max y_arr so get median and return
+                if x_pos < 0:
+                    x_pos = 0
+                    xL = x_arr[0]
+                    y_pos = (len(x_arr)+len(y_arr)+1)//2-x_pos
+                    yL = y_arr[y_pos]
+                    yH = y_arr[y_pos+1]
+                    if not (len(x_arr)+len(y_arr))%2:
+                        return (y_arr[yL]+max(y_arr[yH], x_arr[xL]))/2
+                    else:
+                        return yL
+            # x_arr median is too low so move right
+            else:
+                x_start = x_pos+1
+                x_pos = (x_end+x_start)//2
+                y_pos = (len(x_arr)+len(y_arr)+1)//2-x_pos
+                # Edge case:
+                # x_pos is > length of x_arr then all x_arr is less than y_arr
+                if x_pos > len(x_arr):
+                    x_pos = len(x_arr)-1
+                    xH = x_arr[-1]
+                    y_pos = (len(x_arr)+len(y_arr)+1)//2-x_pos
+                    yL = y_arr[y_pos]
+                    yH = y_arr[y_pox+1]
+                    if not (len(x_arr)+len(y_arr))%2:
+                        return (min(yL, xH)+yH)/2
+                    else:
+                        return yL
+            i+=1
+            if i > 10:
+                return False
+
+def check(arr1, arr2):
+    arr1.extend(arr2)
+    arr1.sort()
+    print(arr1)
+    if not len(arr1)%2:
+        print((arr1[len(arr1)//2]+arr1[len(arr1)//2-1])/2)
+    else:
+        print(arr1[len(arr1)//2])
 # run
 test = Solution_4()
-test.findMedianSortedArrays([1,3], [2])
+arr1 = [1,3, 8, 9, 15]
+arr2 = [7, 11, 18, 19, 21, 25]
+print(test.findMedianSortedArrays( arr1, arr2 ))
+check(arr1, arr2)
