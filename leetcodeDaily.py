@@ -119,6 +119,33 @@ def lengthOfLongestSub(s):
 
     return longest
 
+#leetcode
+# 14. Longest Common Prefix
+# time O(n*m) where m is shortest string n is len of strs
+# space O(m) size of common  
+def longestCommonPrefix(strs):
+    # variable to hold common prefix
+    common = ''
+    str_len = 0
+    # iterate through characters in first str in list
+    for i in range(len(strs[0])):
+        # verify char is in every str in list
+        for j in strs:
+            str_len = len(j)
+            # if we exceed len of shortest str return common
+            if len(j) == i:
+                return common
+            # if not return common
+            if strs[0][i] != j[i]:
+                return common
+        # if not returned we append new valuue to common
+        common += strs[0][i]
+    # if iterate through entire str then it is the common prefix.
+    return common
+#run
+lst = ['ab', 'abc', 'abce']
+print(longestCommonPrefix(lst))
+
 # leetcode
 # 4. Median of Two Sorted Arrays
 # Algorithm reference https://www.youtube.com/watch?v=LPFhl65R7ww
@@ -202,8 +229,8 @@ def check(arr1, arr2):
     else:
         print(arr1[len(arr1)//2])
 # run
-test = Solution_4()
-arr1 = [1,3, 8, 9, 15]
-arr2 = [7, 11, 18, 19, 21, 25]
-print(test.findMedianSortedArrays( arr1, arr2 ))
-check(arr1, arr2)
+# test = Solution_4()
+# arr1 = [1,3, 8, 9, 15]
+# arr2 = [7, 11, 18, 19, 21, 25]
+# print(test.findMedianSortedArrays( arr1, arr2 ))
+# check(arr1, arr2)
