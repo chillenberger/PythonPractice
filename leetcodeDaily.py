@@ -122,7 +122,7 @@ def lengthOfLongestSub(s):
 #leetcode
 # 14. Longest Common Prefix
 # time O(n*m) where m is shortest string n is len of strs
-# space O(m) size of common  
+# space O(m) size of common
 def longestCommonPrefix(strs):
     # variable to hold common prefix
     common = ''
@@ -143,8 +143,8 @@ def longestCommonPrefix(strs):
     # if iterate through entire str then it is the common prefix.
     return common
 #run
-lst = ['ab', 'abc', 'abce']
-print(longestCommonPrefix(lst))
+# lst = ['ab', 'abc', 'abce']
+# print(longestCommonPrefix(lst))
 
 # leetcode
 # 4. Median of Two Sorted Arrays
@@ -234,3 +234,66 @@ def check(arr1, arr2):
 # arr2 = [7, 11, 18, 19, 21, 25]
 # print(test.findMedianSortedArrays( arr1, arr2 ))
 # check(arr1, arr2)
+
+# leetcode
+# 21. Merge Two Sorted Lists
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def getMinNode(node1, node2):
+    if node1 > node2:
+        return 2, node2
+    else:
+        return 1, node1
+
+def mergeTwoLists(list1, list2):
+
+    if not list1 and not list2:
+        return None
+
+    rsp_head = ListNode()
+    rsp = rsp_head
+
+    current1 = list1
+    current2 = list2
+
+    while current1 is not None or current2 is not None:
+        # get lowest value
+        if current1 is not None and current2 is None:
+            idx, val = 1, current1.val
+        elif current1 is None and current2 is not None:
+            idx, val = 2, current2.val
+        else:
+            idx, val = getMinNode(current1.val, current2.val)
+
+        # incriment linked list lowest value found in
+        if idx == 2:
+            current2 = current2.next
+        else:
+            current1 = current1.next
+
+        rsp.val = val
+        # if nothing left in linked lists break loop to not attach new node.
+        if current1 is None and current2 is None:
+            rsp.next = None
+            break
+
+        # if something in linked lists add a node and continue
+        rsp.next = ListNode()
+        rsp = rsp.next
+
+    return rsp_head
+# run
+# first1 = ListNode(1)
+# first1.next = ListNode(3)
+# first1.next.next = ListNode(5)
+#
+# second1 = ListNode(2)
+# second1.next = ListNode(3)
+# second1.next.next = ListNode(4)
+# out = mergeTwoLists(ListNode(None), ListNode(None))
+# while out is not None:
+#     print(out.val)
+#     out = out.next
