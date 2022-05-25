@@ -297,3 +297,78 @@ def mergeTwoLists(list1, list2):
 # while out is not None:
 #     print(out.val)
 #     out = out.next
+
+# leetcode
+# 20. Valid Parentheses
+def isValid(s):
+    table = {')':'(', '}':'{', ']':'['}
+    stack = []
+    for c in s:
+        if not stack:
+            stack.append(c)
+        elif stack[-1] == table.get(c):
+            stack.pop()
+        else:
+            stack.append(c)
+    return True if not stack else False
+
+# run
+# print(isValid('(){}[]'))
+
+
+# LeetCode
+# 28. Implement strStr()
+def strStr(haystack, needle):
+    print(needle)
+    if not needle:
+        return 0
+    c = 0
+    while c < len(haystack):
+        for i in range(len(needle)):
+            # if needle runs off end of haystack or needle not in haystack next
+            print(c+i, len(haystack))
+            if c > len(haystack)-1 or haystack[c] != needle[i]:
+                c -= i
+                break
+            # if i == len needle then we know needle is in haystack return start pos
+            elif i == len(needle)-1:
+                return c-i
+            # increment
+            else:
+                c += 1
+        c += 1
+    return -1
+
+# 28. Implement strStr() but using python build in methods.
+def strStr2(haystack, needle):
+    return 0 if not needle else haystack.find(needle)
+# run
+# print(strStr("missippi", "issi"))
+# print(strStr2("missippi", "issi"))
+
+# leetcode
+# 9. Palindrome Number
+# memory O(n) n = len number
+# time O(n) n = len number
+def isPalindrome(number):
+    num = [x for x in str(number)]
+    while len(num) > 1:
+        if num[0] == num[-1]:
+            num.pop()
+            del num[0]
+        else:
+            return False
+    return True
+
+# memory O(1)
+# time O(n) n = len number
+def isPalindrome2(number):
+    num = str(number)
+    while len(num) > 1:
+        if num[0] == num[-1]:
+            num = num[1:-1]
+        else:
+            return False
+    return True
+# run
+print(isPalindrome2(123321))
