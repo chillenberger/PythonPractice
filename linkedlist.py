@@ -90,6 +90,21 @@ class linked_list:
                 break
         self.head = last
 
+    def swap(self, node1_d, node2_d):
+        node1 = self.head
+        for i in range(node1_d):
+            node1 = node1.next
+        node2 = self.head
+        for i in range(node2_d):
+            node2 = node2.next
+
+        print(node1, node2)
+
+        self.delete_node(node2_d)
+        self.delete_node(node1_d)
+        self.insert(node2, node1_d)
+        self.insert(node1, node2_d)
+
 
 class ll_node:
     def __init__(self, data):
@@ -140,4 +155,24 @@ if __name__ == '__main__':
     print(llist)
 
     ll_shift_left(node3)
+    print(llist)
+
+    nodeC = ll_node('C')
+    llist.insert(nodeC, 3)
+    print(llist)
+
+    llist.delete_node(3)
+    print(llist)
+    llist.delete_node(3)
+    print(llist)
+    llist.insert(node3, 3)
+    llist.insert(nodeC, 4)
+    print(llist)
+
+    nodeA = ll_node('A')
+    nodeB = ll_node('B')
+    llist.right_append(nodeA)
+    llist.right_append(nodeB)
+    print(llist)
+    llist.swap(4, 5)
     print(llist)

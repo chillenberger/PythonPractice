@@ -371,4 +371,53 @@ def isPalindrome2(number):
             return False
     return True
 # run
-print(isPalindrome2(123321))
+# print(isPalindrome2(123321))
+
+
+# leetcode
+# 344. Reverse String
+def reverseString(s):
+    __range = len(s)//2
+    for i in range(__range):
+        last_s = s[-(i+1)]
+        s[-(i+1)] = s[i]
+        s[i] = last_s
+    return s
+
+def reverseString2(s):
+    return s.reverse()
+# run
+# print(reverseString([1,2,3,4,5]))
+
+# leetCode
+# 18. 4Sum
+def fourSum(nums, target, depth=0, sums=None, rsp=None):
+    sums = [] if sums is None else sums
+    rsp = [] if rsp is None else rsp
+
+    if depth == 4:
+        if target == 0:
+            sums.sort()
+            rsp.append(sums)
+            return rsp
+        else:
+            return
+    elif depth < 4:
+        hold_nums = [i for i in nums]
+        # for every value in nums, remove 1 num, get new target, call fourSum
+        for i in range(len(nums)):
+            test_num = nums.pop(i)
+            new_sums = [i for i in sums]
+            new_sums.append(test_num)
+            fourSum(nums, target-test_num, depth+1, new_sums, rsp)
+            nums = [i for i in hold_nums]
+
+    # remove duplicates
+    rsp_dupe_rmvd = []
+    for i in rsp:
+        if i not in rsp_dupe_rmvd:
+            rsp_dupe_rmvd.append(i)
+    return rsp_dupe_rmvd
+
+# run
+print(fourSum([2,2,2,2,2], 8))
