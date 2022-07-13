@@ -1,3 +1,6 @@
+
+import time
+
 # leetcode 399, 4/30/22
 # Evaluate division
 def calcEquation( equations, values, queries):
@@ -74,14 +77,18 @@ class Solution5_9_2022:
 # 216. Combination Sum III
 # find k intagers that sum to n
 # solution uses backtracking
-class Solution5_10_22:
+class Solution5_10_22: #moose
     def __init__(self):
         self.ans = []
+        self.count = 0
 
     def solve(self, a, pos, k, n):
+        self.count += 1
         if pos == k:
             if sum(a) == n:
                 self.ans.append(a[:])
+            else:
+                return
         for i in range(a[-1]+1 if a else 1,10):
             a.append(i)
             self.solve(a, pos+1, k, n)
@@ -93,10 +100,14 @@ class Solution5_10_22:
             return
         a = []
         self.solve(a, 0, k, n)
+        print('iterations: ', self.count)
         return self.ans
 # run
-# test = Solution5_10_22()
-# print(test.combinationSum3(9, 45))
+
+timer = time.process_time_ns()
+test = Solution5_10_22()
+print(test.combinationSum3(5, 20))
+print(f"native timer: {(time.process_time_ns()-timer)/1e9}")
 
 
 # leetcode
@@ -391,33 +402,54 @@ def reverseString2(s):
 
 # leetCode
 # 18. 4Sum
-def fourSum(nums, target, depth=0, sums=None, rsp=None):
-    sums = [] if sums is None else sums
-    rsp = [] if rsp is None else rsp
 
-    if depth == 4:
-        if target == 0:
-            sums.sort()
-            rsp.append(sums)
-            return rsp
-        else:
-            return
-    elif depth < 4:
-        hold_nums = [i for i in nums]
-        # for every value in nums, remove 1 num, get new target, call fourSum
-        for i in range(len(nums)):
-            test_num = nums.pop(i)
-            new_sums = [i for i in sums]
-            new_sums.append(test_num)
-            fourSum(nums, target-test_num, depth+1, new_sums, rsp)
-            nums = [i for i in hold_nums]
+class fourSum:
+    def __init__(self):
+        self.ans = []
+        self.operation_count = 0
 
-    # remove duplicates
-    rsp_dupe_rmvd = []
-    for i in rsp:
-        if i not in rsp_dupe_rmvd:
-            rsp_dupe_rmvd.append(i)
-    return rsp_dupe_rmvd
+    def solve(self, nums, target, depth=0, sums=None):
+        self.operation_count += 1
+        if depth == 4:
+            if target == sum(sums):
+                if sums not in self.ans:
+                    self.ans.append(sums[:])
+            else:
+                return
+        elif depth < 4:
+            while nums:
+                test_num = nums.pop(0)
+                print(test_num, target)
+                self.solve(nums[:], target, depth+1, sums + [test_num])
+
+    def calc(self, nums, target):
+        nums.sort()
+        sums = []
+
+        self.solve(nums, target, 0, sums)
+        print(self.operation_count)
+        return self.ans
 
 # run
-print(fourSum([2,2,2,2,2], 8))
+mySum = fourSum()
+print(mySum.calc([-1, 0, 1, 2, -1, -4], -1))
+
+# try using backtracking to solve fourSum problem to speed up algorithm.
+# class sum2:
+#     def __init__(self):
+#         self.ans = []
+#
+#     def solution(self, nums, target, pos, sums=None):
+#         if pos == 4:
+#             if sum(sums) == target:
+#                 ans.append(sums[:])
+#         for i in range(len(nums)):
+#             sums.append(nums.pop())
+#             self.solution(nums, target, pos+1, sums)
+#             sums.pop()
+#
+#     def fourSum(self, nums:int, target:list) -> list[list[int]]:
+#         if len(nums) < 4:
+#             return
+#         self.solution(nums, target, 0):
+#         return self.ans
